@@ -28,9 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let Webpush = []; // Array to store messages from both sources
-app.get('/webhook', (req, res) => {
-    res.send('Webhook is active!');
-});
 
 // Unified webhook to handle both LINE and RockBLOCK messages
 app.post('/webhook', (req, res) => {
