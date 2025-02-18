@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Webpage</title>
+    <style>
+        body {
+            font-family: Poppins;
+            text-align: center; /* Centers the content, but can be overridden */
+            background-color: #f0f8ff;
+	    padding: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+        p {
+            font-size: 18px;
+        }
+        ul {
+            padding: 20;
+        }
+        li {
+            text-align: left; /* Aligns list items to the left */
+            margin: 10px 0;
+        }
+        a {
+            font-size: 18px;
+            text-decoration: none; /* Removes underline */
+        }
+	#chat {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fffaf0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+	    padding: 2px;
+            margin-bottom: 15px;
+        }
+        .message .user {
+	    padding: 2px;
+            font-weight: bold;
+            color: #4CAF50;
+	    text-align: left;
+        }
+        .message .text {
+	    padding: 2px;
+            margin: 5px 0;
+	    text-align: left;
+        }
+        .message .timestamp {
+	    padding: 2px;
+            font-size: 0.8em;
+            color: #666;
+	    text-align: left;
+        }
+	.message.LINE {
+            border-left: 4px solid #4CAF50;
+        }
+        .message.RockBLOCK {
+            border-left: 4px solid #FF5733;
+        }
+        #replyForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Stack input box and button vertically */
+    align-items: center; /* Center-align them */
+}
+#replyForm input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+#replyForm button {
+    margin-top: 10px; /* Add space between the input box and button */
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px; /* More circular corners */
+    cursor: pointer;
+    font-size: 16px; /* Increase font size for better visibility */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
+#replyForm button:hover {
+    background-color: #45a049;
+}
+#replyForm button1 {
+    margin-top: 10px; /* Add space between the input box and button */
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px; /* More circular corners */
+    cursor: pointer;
+    font-size: 16px; /* Increase font size for better visibility */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
+#replyForm button1:hover {
+    background-color: #45a049;
+}
+    </style>
+</head>
+<body>
+    <h1>Emergency Communication System by Iridium Satellite</h1>
+    <br>
+    <p>
+        Welcome to the Iridium Project Web Portal. This website will show you about our project, the Line messaging API platform, and the Iridium Satellites Live Map!
+    </p>
+    <br>
+    <ul>
+        <li><a>Iridium Satellites Live Map</a></li>
+    </ul>
+    <iframe 
+        src="https://www.iridiumwhere.com/" 
+        width="1200" 
+        height="600" 
+        style="border:0;" 
+        allowfullscreen 
+        loading="lazy">
+    </iframe>
+    <br>
+    <ul>
+        <li><a>Line Messaging API </a></li>
+    </ul>
+    <div id="chat"></div>
+
+<script>
+        async function fetchMessages() {
+            try {
+                // Fetch messages from the backend server
+                const response = await fetch('http://localhost:8080/Webpush');
+                const messages = await response.json();
+                const chatContainer = document.getElementById('chat');
+
+                // Loop through messages and display them
+                messages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message', message.source); // Add class based on the message source
+                    messageDiv.innerHTML = `
+                        <div class="user">${message.user} (${message.source})</div>
+                        <div class="text">${message.text}</div>
+                        <div class="timestamp">${new Date(message.timestamp).toLocaleString()}</div>
+                    `;
+                    chatContainer.appendChild(messageDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                document.getElementById('chat').textContent = 'Failed to load messages.';
+            }
+        }
+
+        // Fetch messages every 5 seconds
+        setInterval(fetchMessages, 5000);
+        fetchMessages();
+    </script>
+
+<div id="replyForm">
+    <input type="text" id="messageInput" maxlength="45" placeholder="Enter your message here">
+    <button id="sendButton">Send to RockBLOCK</button>
+    <button id="resetButton">Reset</button>
+</div>
+<script>
+    const correctPassword = "rockseven14"; // Define the correct password here
+
+document.getElementById("sendButton").addEventListener("click", async () => {
+    const message = document.getElementById("messageInput").value;
+
+    if (!message) {
+        alert("Message cannot be empty!");
+        return;
+    }
+
+    const confirmReset = confirm("Are you sure you want to send the message?");
+    if (confirmReset) {
+        const userPassword = prompt("Enter the password to confirm send the message:");
+        if (userPassword === correctPassword) {
+            try {
+                const response = await fetch('http://localhost:8080/send-rockblock', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                if (response.ok) {
+                    // Change button color after sending the message
+                    const sendButton = document.getElementById("sendButton");
+                    sendButton.style.backgroundColor = "#cc3333"; // Change to red (or any color you prefer)
+                    sendButton.innerText = "Message Sent"; // Optional: Change button text
+
+                    // Clear the input field after sending the message
+                    document.getElementById("messageInput").value = "";
+
+                    // Optionally, disable the button for a short period to prevent resending quickly
+                    sendButton.disabled = true;
+                    setTimeout(() => {
+                        sendButton.disabled = false;
+                        sendButton.style.backgroundColor = "#4CAF50"; // Reset to original color
+                        sendButton.innerText = "Send to RockBLOCK"; // Reset button text
+                    }, 10000); // Button is disabled for 10 seconds after sending
+                } else {
+                    const errorText = await response.text();
+                    alert(`Failed to send message: ${errorText}`);
+                }
+            } catch (error) {
+                console.error("Error sending message:", error);
+                alert("An error occurred. Check the console for details.");
+            }
+        } else {
+            // If the password is incorrect, notify the user
+            alert("Incorrect password. Failed to send message.");
+        }
+    } else {
+        alert("Chat reset canceled.");
+    }
+});
+
+
+document.getElementById('resetButton').addEventListener('click', () => {
+            const chatContainer = document.getElementById('chat');
+
+            // Show a confirmation dialog
+            const confirmReset = confirm("Are you sure you want to clear the chat?");
+            
+            if (confirmReset) {
+                chatContainer.style.transition = 'opacity 0.5s'; // Add a transition
+                chatContainer.style.opacity = '0'; // Fade out
+                setTimeout(() => {
+                    chatContainer.innerHTML = ''; // Clear the chat after fade-out
+                    chatContainer.style.opacity = '1'; // Reset opacity
+                    alert("Chat has been cleared!");
+                }, 500); // Wait for the fade-out effect to complete
+            } else {
+                alert("Chat reset canceled.");
+            }
+        });
+</script>
+</body>
+</html>
