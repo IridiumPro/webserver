@@ -11,8 +11,8 @@ const app = express();
 
 // LINE bot configuration from environment variables
 const lineConfig = {
-    channelAccessToken: "xs429d+oT5LcQZnEDzO4xIKNvpYqOXDycud70+/YGy+YZkqccxK1YcuayacYgSOcWr+GE92LndQMQPnpfDIZJC43nBnSh3inv0QZYTrQvFrIYp19Hfbd0RCKLSJDEC4oXndefBx0o/Y0bMTZrOgvHwdB04t89/1O/w1cDnyilFU",
-    channelSecret: "a0f2c073d350b4e92d96664eee5fd2cd",
+    channelAccessToken: 'xs429d+oT5LcQZnEDzO4xIKNvpYqOXDycud70+/YGy+YZkqccxK1YcuayacYgSOcWr+GE92LndQMQPnpfDIZJC43nBnSh3inv0QZYTrQvFrIYp19Hfbd0RCKLSJDEC4oXndefBx0o/Y0bMTZrOgvHwdB04t89/1O/w1cDnyilFU',
+    channelSecret: 'a0f2c073d350b4e92d96664eee5fd2cd',
 };
 
 // Initialize the LINE client
@@ -95,7 +95,7 @@ Please answer back after receiving this message.`;
         Webpush.push(rockblockMessage);
 
         // Send the decoded message to a LINE user
-        const userId = "Uf6610f51ead2f45519dc9a2b0d8dc64b";
+        const userId = 'Uf6610f51ead2f45519dc9a2b0d8dc64b';
         client
             .pushMessage(userId, {
                 type: 'text',
@@ -116,45 +116,41 @@ Please answer back after receiving this message.`;
 
 // Endpoint to send a message to the RockBLOCK device
 app.post('/send-rockblock', async (req, res) => {
-    console.log("Received POST request to /send-rockblock"); // Debugging log
-
-    const { message } = req.body;
+    const { message } = req.body; // The reply message from the webpage form
 
     if (!message) {
-        console.log("Message is empty!");
         return res.status(400).send('Message cannot be empty');
     }
 
     try {
         console.log(`Sending message to RockBLOCK: ${message}`);
-        sendToRockBlockMT(message);
+        sendToRockBlockMT(message); // Reuse the existing function
 
+        // Create and push the LINE message object
         const WebMessage = {
-            user: "Web User",
+            user: "Web User", // Indicates the message source is the webpage user
             text: message,
             timestamp: new Date().toISOString(),
             source: "LINE",
         };
-
         console.log(WebMessage);
-        Webpush.push(WebMessage);
+        Webpush.push(WebMessage); // Add to the Webpush array
 
-        console.log('Message sent successfully');
-        res.status(200).send('Message sent successfully');
+        console.log('Message sent to RockBLOCK successfully');
+        res.status(200).send('Message sent to RockBLOCK successfully');
     } catch (error) {
-        console.error('Error sending message:', error.message);
-        res.status(500).send('Error sending message');
+        console.error('Error sending message to RockBLOCK:', error.message);
+        res.status(500).send('Error sending message to RockBLOCK');
     }
 });
-
 
 // Function to send message to RockBLOCK via MT API
 function sendToRockBlockMT(message) {
     const tag = "[L>R]"; // Tag for messages from LINE to RockBLOCK
     const rockblockMtUrl = 'https://core.rock7.com/rockblock/MT';
-    const imei = "00434063245740";
-    const username = "iridiumproject.2@gmail.com";
-    const password = "rockseven14";
+    const imei = '00434063245740';
+    const username = 'iridiumproject.2@gmail.com';
+    const password = 'rockseven14';
 
     // Add the tag to the message
     const taggedMessage = `${tag}${message}`;
@@ -179,14 +175,9 @@ app.get('/', (req, res) => {
 app.get('/Webpush', (req, res) => {
     res.json(Webpush); // Send messages in JSON format
 });
-app.delete('/Webpush', (req, res) => {
-    messages = [];  // Clear the messages array or database
-    res.status(200).send({ message: "Chat cleared" });
-});
-
 
 // Start the server
 const PORT = 8080;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
