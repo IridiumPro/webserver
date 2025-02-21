@@ -186,7 +186,7 @@ app.delete('/Webpush', (req, res) => {
 
 
 // Start the server
-const PORT = "8080";
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
+const PORT = 8080;
+app.listen(PORT, () => {
+    console.log(`Server running on http://54.253.156.71:${PORT}`);
 });
