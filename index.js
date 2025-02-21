@@ -11,8 +11,8 @@ const app = express();
 
 // LINE bot configuration from environment variables
 const lineConfig = {
-    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.LINE_CHANNEL_SECRET,
+    channelAccessToken: "xs429d+oT5LcQZnEDzO4xIKNvpYqOXDycud70+/YGy+YZkqccxK1YcuayacYgSOcWr+GE92LndQMQPnpfDIZJC43nBnSh3inv0QZYTrQvFrIYp19Hfbd0RCKLSJDEC4oXndefBx0o/Y0bMTZrOgvHwdB04t89/1O/w1cDnyilFU",
+    channelSecret: "a0f2c073d350b4e92d96664eee5fd2cd",
 };
 
 // Initialize the LINE client
@@ -95,7 +95,7 @@ Please answer back after receiving this message.`;
         Webpush.push(rockblockMessage);
 
         // Send the decoded message to a LINE user
-        const userId = process.env.LINE_USER_ID;
+        const userId = "Uf6610f51ead2f45519dc9a2b0d8dc64b";
         client
             .pushMessage(userId, {
                 type: 'text',
@@ -148,9 +148,9 @@ app.post('/send-rockblock', async (req, res) => {
 function sendToRockBlockMT(message) {
     const tag = "[L>R]"; // Tag for messages from LINE to RockBLOCK
     const rockblockMtUrl = 'https://core.rock7.com/rockblock/MT';
-    const imei = process.env.ROCKBLOCK_DEVICE_IMEI;
-    const username = process.env.ROCKBLOCK_USERNAME;
-    const password = process.env.ROCKBLOCK_PASSWORD;
+    const imei = "00434063245740";
+    const username = "iridiumproject.2@gmail.com";
+    const password = "rockseven14";
 
     // Add the tag to the message
     const taggedMessage = `${tag}${message}`;
@@ -182,7 +182,7 @@ app.delete('/Webpush', (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT || 8080;
+const PORT = "8080";
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
