@@ -116,33 +116,37 @@ Please answer back after receiving this message.`;
 
 // Endpoint to send a message to the RockBLOCK device
 app.post('/send-rockblock', async (req, res) => {
-    const { message } = req.body; // The reply message from the webpage form
+    console.log("Received POST request to /send-rockblock"); // Debugging log
+
+    const { message } = req.body;
 
     if (!message) {
+        console.log("Message is empty!");
         return res.status(400).send('Message cannot be empty');
     }
 
     try {
         console.log(`Sending message to RockBLOCK: ${message}`);
-        sendToRockBlockMT(message); // Reuse the existing function
+        sendToRockBlockMT(message);
 
-        // Create and push the LINE message object
         const WebMessage = {
-            user: "Web User", // Indicates the message source is the webpage user
+            user: "Web User",
             text: message,
             timestamp: new Date().toISOString(),
             source: "LINE",
         };
-        console.log(WebMessage);
-        Webpush.push(WebMessage); // Add to the Webpush array
 
-        console.log('Message sent to RockBLOCK successfully');
-        res.status(200).send('Message sent to RockBLOCK successfully');
+        console.log(WebMessage);
+        Webpush.push(WebMessage);
+
+        console.log('Message sent successfully');
+        res.status(200).send('Message sent successfully');
     } catch (error) {
-        console.error('Error sending message to RockBLOCK:', error.message);
-        res.status(500).send('Error sending message to RockBLOCK');
+        console.error('Error sending message:', error.message);
+        res.status(500).send('Error sending message');
     }
 });
+
 
 // Function to send message to RockBLOCK via MT API
 function sendToRockBlockMT(message) {
