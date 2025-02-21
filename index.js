@@ -175,6 +175,11 @@ app.get('/', (req, res) => {
 app.get('/Webpush', (req, res) => {
     res.json(Webpush); // Send messages in JSON format
 });
+app.delete('/Webpush', (req, res) => {
+    messages = [];  // Clear the messages array or database
+    res.status(200).send({ message: "Chat cleared" });
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 8080;
