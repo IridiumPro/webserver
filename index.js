@@ -11,8 +11,8 @@ const app = express();
 
 // LINE bot configuration from environment variables
 const lineConfig = {
-    channelAccessToken: 'xs429d+oT5LcQZnEDzO4xIKNvpYqOXDycud70+/YGy+YZkqccxK1YcuayacYgSOcWr+GE92LndQMQPnpfDIZJC43nBnSh3inv0QZYTrQvFrIYp19Hfbd0RCKLSJDEC4oXndefBx0o/Y0bMTZrOgvHwdB04t89/1O/w1cDnyilFU',
-    channelSecret: 'a0f2c073d350b4e92d96664eee5fd2cd',
+    channelAccessToken: "xs429d+oT5LcQZnEDzO4xIKNvpYqOXDycud70+/YGy+YZkqccxK1YcuayacYgSOcWr+GE92LndQMQPnpfDIZJC43nBnSh3inv0QZYTrQvFrIYp19Hfbd0RCKLSJDEC4oXndefBx0o/Y0bMTZrOgvHwdB04t89/1O/w1cDnyilFU",
+    channelSecret: "a0f2c073d350b4e92d96664eee5fd2cd",
 };
 
 // Initialize the LINE client
@@ -95,7 +95,7 @@ Please answer back after receiving this message.`;
         Webpush.push(rockblockMessage);
 
         // Send the decoded message to a LINE user
-        const userId = 'Uf6610f51ead2f45519dc9a2b0d8dc64b';
+        const userId = "Uf6610f51ead2f45519dc9a2b0d8dc64b";
         client
             .pushMessage(userId, {
                 type: 'text',
@@ -147,10 +147,10 @@ app.post('/send-rockblock', async (req, res) => {
 // Function to send message to RockBLOCK via MT API
 function sendToRockBlockMT(message) {
     const tag = "[L>R]"; // Tag for messages from LINE to RockBLOCK
-    const rockblockMtUrl = 'https://core.rock7.com/rockblock/MT';
-    const imei = '00434063245740';
-    const username = 'iridiumproject.2@gmail.com';
-    const password = 'rockseven14';
+    const rockblockMtUrl = "https://core.rock7.com/rockblock/MT";
+    const imei = "00434063245740";
+    const username = "iridiumproject.2@gmail.com";
+    const password = "rockseven14";
 
     // Add the tag to the message
     const taggedMessage = `${tag}${message}`;
