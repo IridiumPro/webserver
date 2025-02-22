@@ -115,7 +115,7 @@ Please answer back after receiving this message.`;
 });
 
 // Endpoint to send a message to the RockBLOCK device
-app.post('/send-rockblock', async (req, res) => {
+app.post('/send-rockblock', (req, res) => {
     const { message } = req.body; // The reply message from the webpage form
 
     if (!message) {
