@@ -148,7 +148,7 @@ app.post('/send-rockblock', (req, res) => {
 function sendToRockBlockMT(message) {
     const tag = "[L>R]"; // Tag for messages from LINE to RockBLOCK
     const rockblockMtUrl = "https://core.rock7.com/rockblock/MT";
-    const imei = "00434063245740";
+    const imei = "300434063245740";
     const username = "iridiumproject.2@gmail.com";
     const password = "rockseven14";
 
