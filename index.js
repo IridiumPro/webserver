@@ -70,11 +70,6 @@ app.post('/webhook', (req, res) => {
         // Decode the message data from hex
         const decodedMessage = Buffer.from(data, 'hex').toString('utf-8');
 
-        if (decodedMessage.startsWith("[L>R]")) {
-            console.log("Message from LINE received back from RockBLOCK; ignoring.");
-            return res.status(200).send("Message ignored.");
-        }
-
         console.log(`Received message from RockBLOCK (IMEI: ${imei}, MOMSN: ${momsn}): ${decodedMessage}`);
 
         const messageText = `Message from RockBLOCK:
@@ -146,14 +141,13 @@ app.post('/send-rockblock', (req, res) => {
 
 // Function to send message to RockBLOCK via MT API
 function sendToRockBlockMT(message) {
-    const tag = "[L>R]"; // Tag for messages from LINE to RockBLOCK
     const rockblockMtUrl = "https://core.rock7.com/rockblock/MT";
     const imei = "300434063245740";
     const username = "iridiumproject.2@gmail.com";
     const password = "rockseven14";
 
     // Add the tag to the message
-    const taggedMessage = `${tag}${message}`;
+    const taggedMessage = `${message}`;
     console.log(taggedMessage);
 
     return axios.post(rockblockMtUrl, null, {
