@@ -20,7 +20,7 @@ const client = new Client(lineConfig);
 
 // Middleware to parse incoming JSON data
 app.use(cors({
-    origin: 'http://mymymyiridium.s3-website-ap-southeast-2.amazonaws.com', // Allow this specific origin
+    origin: 'http://mymymyiridium.s3-website-ap-southeast-2.amazonaws.com/', // Allow this specific origin
     methods: ['GET', 'POST'],       // Allow specific methods
     allowedHeaders: ['Content-Type'] // Allow specific headers
 }));
